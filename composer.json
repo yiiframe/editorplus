@@ -1,0 +1,50 @@
+{
+    "name": "yiiframe/editorplus",
+    "type": "library",
+    "description": "",
+    "keywords": [],
+    "homepage": "https://github.com/yiiframe/editorplus",
+    "license": "BSD-3-Clause",
+    "support": {
+        "source": "https://github.com/yiiframe/editorplus",
+        "issues": "https://github.com/yiiframe/editorplus/issues",
+        "wiki": "https://github.com/yiiframe/editorplus"
+    },
+    "require": {
+        "php": ">=7.2.0",
+        "ext-dom": "*",
+        "ext-libxml": "*",
+        "ext-simplexml": "*",
+        "yiisoft/yii2": "~2.0.20",
+        "yiiframe/utility": "dev-master",
+        "aliyuncs/oss-sdk-php": "~2.3.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "~8.2.0"
+    },
+    "repositories": {
+        "0": {
+            "type": "composer",
+            "url": "https://asset-packagist.org"
+        },
+        "packagist": {
+            "type": "composer",
+            "url": "https://mirrors.aliyun.com/composer/"
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Casoa\\Yii\\EditorPlus\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Casoa\\Yii\\EditorPlus\\Tests\\": "tests"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0.x-dev"
+        }
+    }
+}
