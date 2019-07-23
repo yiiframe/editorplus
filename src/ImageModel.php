@@ -24,12 +24,12 @@ class ImageModel extends Model
                 'minSize' => 1024, // 1k
                 'maxSize' => 1024 * 1024 * 8, // 8M
                 'extensions' => [
-                    '.png',
-                    '.jpg',
-                    '.jpeg',
-                    '.gif',
-                    '.bmp',
-                    '.webp',
+                    'png',
+                    'jpg',
+                    'jpeg',
+                    'gif',
+                    'bmp',
+                    'webp',
                 ],
             ],
         ];

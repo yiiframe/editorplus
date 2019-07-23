@@ -57,12 +57,12 @@ class BuiltinAction extends Action
         }
         if ($this->input->action === self::ACTION_UPLOADIMAGE) {
             $model = new ImageModel();
-            $model->imageFile = UploadedFile::getInstance($model, $this->getConfig()['imageFieldName']);
+            $model->imageFile = UploadedFile::getInstanceByName($this->getConfig()['imageFieldName']);
             return $model->save($this->aliyunConfig);
         }
         if ($this->input->action === self::ACTION_UPLOADFILE) {
             $model = new FileModel();
-            $model->normalFile = UploadedFile::getInstance($model, $this->getConfig()['fileFieldName']);
+            $model->normalFile = UploadedFile::getInstanceByName($this->getConfig()['fileFieldName']);
             return $model->save($this->aliyunConfig);
         }
 

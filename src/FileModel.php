@@ -23,7 +23,7 @@ class FileModel extends Model
                 'skipOnEmpty' => false,
                 'minSize' => 1024, // 1k
                 'maxSize' => 1024 * 1024 * 8, // 8M
-                'extensions' => ['.png', '.jpg', '.jpeg', '.gif', '.bmp', '.webp', '.flv', '.swf', '.mkv', '.avi', '.rmvb', '.mpeg', '.mpg', '.ogg', '.mov', '.wmv', '.mp4', '.mp3', '.wav', '.mid', '.rar', '.zip', '.tar', '.gz', '.7z', '.bz2', '.cab', '.iso', '.doc', '.docx', '.xls', '.xlsx', '.ppt', '.pptx', '.pdf', '.txt', '.md', '.xml'],
+                'extensions' => ['png', 'jpg', 'jpeg', 'gif', 'bmp', 'webp', 'flv', 'swf', 'mkv', 'avi', 'rmvb', 'mpeg', 'mpg', 'ogg', 'mov', 'wmv', 'mp4', 'mp3', 'wav', 'mid', 'rar', 'zip', 'tar', 'gz', '7z', 'bz2', 'cab', 'iso', 'doc', 'docx', 'xls', 'xlsx', 'ppt', 'pptx', 'pdf', 'txt', 'md', 'xml'],
             ],
         ];
     }
