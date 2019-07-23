@@ -11,7 +11,7 @@ class BuiltinAction extends Action
 {
     /**
      * @var array $aliyunConfig
-     * e.g. keyId, keySecret, endpoint, bucket, filedir
+     * e.g. 'keyId', 'keySecret', 'endpoint', 'bucket', 'filedir', 'fileprefix'
      */
     public $aliyunConfig;
     /**

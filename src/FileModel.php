@@ -35,7 +35,11 @@ class FileModel extends Model
     public function save(array $aliyunConfig): array
     {
         if ($this->validate()) {
-            $filename = md5_file($this->normalFile->tempName) . '.' . $this->normalFile->extension;
+            $filename = implode('', [
+                $aliyunConfig['fileprefix'] ?? '',
+                md5_file($this->normalFile->tempName),
+                '.' . $this->normalFile->extension,
+            ]);
             $runtimefile = Yii::getAlias('@runtime/tmpfiles_' . $filename);
 
             if (!$this->normalFile->saveAs($runtimefile)) {
@@ -45,6 +49,7 @@ class FileModel extends Model
             try {
                 $client = new OssClient($aliyunConfig['keyId'], $aliyunConfig['keySecret'], $aliyunConfig['endpoint']);
             } catch (OssException $e) {
+                unlink($runtimefile);
                 return ['err' => $e->getMessage()];
             }
 
