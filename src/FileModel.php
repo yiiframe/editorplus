@@ -6,6 +6,7 @@ use OSS\Core\OssException;
 use Yii;
 use OSS\OssClient;
 use yii\base\Model;
+use yii\helpers\StringHelper;
 
 class FileModel extends Model
 {
@@ -35,6 +36,10 @@ class FileModel extends Model
     public function save(array $aliyunConfig): array
     {
         if ($this->validate()) {
+            if (!StringHelper::endsWith($aliyunConfig['filedir'], '/')) {
+                $aliyunConfig['filedir'] .= '/';
+            }
+
             $filename = implode('', [
                 $aliyunConfig['fileprefix'] ?? '',
                 md5_file($this->normalFile->tempName),
