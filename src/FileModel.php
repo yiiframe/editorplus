@@ -7,30 +7,23 @@ use Yii;
 use OSS\OssClient;
 use yii\base\Model;
 
-class ImageModel extends Model
+class FileModel extends Model
 {
     /**
      * @var \yii\web\UploadedFile
      */
-    public $imageFile;
+    public $normalFile;
 
     public function rules(): array
     {
         return [
             [
-                ['imageFile'],
+                ['normalFile'],
                 'file',
                 'skipOnEmpty' => false,
                 'minSize' => 1024, // 1k
                 'maxSize' => 1024 * 1024 * 8, // 8M
-                'extensions' => [
-                    '.png',
-                    '.jpg',
-                    '.jpeg',
-                    '.gif',
-                    '.bmp',
-                    '.webp',
-                ],
+                'extensions' => ['.png', '.jpg', '.jpeg', '.gif', '.bmp', '.webp', '.flv', '.swf', '.mkv', '.avi', '.rmvb', '.mpeg', '.mpg', '.ogg', '.mov', '.wmv', '.mp4', '.mp3', '.wav', '.mid', '.rar', '.zip', '.tar', '.gz', '.7z', '.bz2', '.cab', '.iso', '.doc', '.docx', '.xls', '.xlsx', '.ppt', '.pptx', '.pdf', '.txt', '.md', '.xml'],
             ],
         ];
     }
@@ -42,11 +35,11 @@ class ImageModel extends Model
     public function save(array $aliyunConfig): array
     {
         if ($this->validate()) {
-            $filename = md5_file($this->imageFile->tempName) . '.' . $this->imageFile->extension;
+            $filename = md5_file($this->normalFile->tempName) . '.' . $this->normalFile->extension;
             $runtimefile = Yii::getAlias('@runtime/tmpfiles_' . $filename);
 
-            if (!$this->imageFile->saveAs($runtimefile)) {
-                return ['err' => '图片暂存失败'];
+            if (!$this->normalFile->saveAs($runtimefile)) {
+                return ['err' => '文件暂存失败'];
             }
 
             try {
@@ -59,7 +52,7 @@ class ImageModel extends Model
 
             if (!$client->doesObjectExist($aliyunConfig['bucket'], $aliyunConfig['filedir'] . $filename)) {
                 unlink($runtimefile);
-                return ['err' => '图片转存失败'];
+                return ['err' => '文件转存失败'];
             }
 
             unlink($runtimefile);
