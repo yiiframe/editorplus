@@ -42,7 +42,11 @@ class ImageModel extends Model
     public function save(array $aliyunConfig): array
     {
         if ($this->validate()) {
-            $filename = md5_file($this->imageFile->tempName) . '.' . $this->imageFile->extension;
+            $filename = implode('', [
+                $aliyunConfig['fileprefix'] ?? '',
+                md5_file($this->imageFile->tempName),
+                '.' . $this->imageFile->extension,
+            ]);
             $runtimefile = Yii::getAlias('@runtime/tmpfiles_' . $filename);
 
             if (!$this->imageFile->saveAs($runtimefile)) {
@@ -52,6 +56,7 @@ class ImageModel extends Model
             try {
                 $client = new OssClient($aliyunConfig['keyId'], $aliyunConfig['keySecret'], $aliyunConfig['endpoint']);
             } catch (OssException $e) {
+                unlink($runtimefile);
                 return ['err' => $e->getMessage()];
             }
 
