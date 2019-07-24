@@ -84,7 +84,7 @@ class ImageModel extends Model
                 'filepath' => $aliyunConfig['filedir'] . $filename,
 
                 'state' => 'SUCCESS',
-                'url' => $aliyunConfig['filedir'] . $filename,
+                'url' => $aliyunConfig['filedir'] . $filename . '?x-oss-process=style/max-w1920',
                 'title' => $filename,
                 'original' => $filename,
                 'type' => '.' . $this->imageFile->extension,
