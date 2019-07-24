@@ -65,7 +65,12 @@ class ImageModel extends Model
                 return ['err' => $e->getMessage()];
             }
 
-            $client->putObject($aliyunConfig['bucket'], $aliyunConfig['filedir'] . $filename, $runtimefile);
+            try {
+                $client->uploadFile($aliyunConfig['bucket'], $aliyunConfig['filedir'] . $filename, $runtimefile);
+            } catch (OssException $e) {
+                unlink($runtimefile);
+                return ['err' => $e->getMessage()];
+            }
 
             if (!$client->doesObjectExist($aliyunConfig['bucket'], $aliyunConfig['filedir'] . $filename)) {
                 unlink($runtimefile);
