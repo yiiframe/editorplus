@@ -77,6 +77,13 @@ class ImageModel extends Model
                 'endpoint' => $aliyunConfig['endpoint'],
                 'bucket' => $aliyunConfig['bucket'],
                 'filepath' => $aliyunConfig['filedir'] . $filename,
+
+                'state' => 'SUCCESS',
+                'url' => $aliyunConfig['filedir'] . $filename,
+                'title' => $filename,
+                'original' => $filename,
+                'type' => '.' . $this->imageFile->extension,
+                'size' => $this->imageFile->size,
             ];
         }
 
