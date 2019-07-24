@@ -55,7 +55,7 @@ class BuiltinAction extends Action
         if ($this->input->action === self::ACTION_CONFIG) {
             return $this->getConfig();
         }
-        if ($this->input->action === self::ACTION_UPLOADIMAGE) {
+        if ($this->input->action === self::ACTION_UPLOADIMAGE || $this->input->action === self::ACTION_CATCHIMAGE) {
             $model = new ImageModel();
             $model->imageFile = UploadedFile::getInstanceByName($this->getConfig()['imageFieldName']);
             return $model->save($this->aliyunConfig);
