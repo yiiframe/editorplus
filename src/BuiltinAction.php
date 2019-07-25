@@ -11,7 +11,7 @@ class BuiltinAction extends Action
 {
     /**
      * @var array $aliyunConfig
-     * e.g. 'keyId', 'keySecret', 'endpoint', 'bucket', 'filedir', 'fileprefix'
+     * e.g. 'keyId', 'keySecret', 'endpoint', 'bucket', 'filedir', 'fileprefix', 'filesuffix'
      */
     public $aliyunConfig;
     /**
@@ -49,13 +49,13 @@ class BuiltinAction extends Action
         $this->input->attributes = Yii::$app->request->queryParams;
 
         if (!$this->input->validate()) {
-            return ['err' => $this->input->errors];
+            return ['state' => array_values($this->input->firstErrors)[0]];
         }
 
         if ($this->input->action === self::ACTION_CONFIG) {
             return $this->getConfig();
         }
-        if ($this->input->action === self::ACTION_UPLOADIMAGE || $this->input->action === self::ACTION_CATCHIMAGE) {
+        if ($this->input->action === self::ACTION_UPLOADIMAGE) {
             $model = new ImageModel();
             $model->imageFile = UploadedFile::getInstanceByName($this->getConfig()['imageFieldName']);
             return $model->save($this->aliyunConfig);
@@ -65,8 +65,22 @@ class BuiltinAction extends Action
             $model->normalFile = UploadedFile::getInstanceByName($this->getConfig()['fileFieldName']);
             return $model->save($this->aliyunConfig);
         }
+        if ($this->input->action === self::ACTION_CATCHIMAGE) {
+            $rUrls = Yii::$app->getRequest()->post($this->getConfig()['catcherFieldName'], []);
+            $results = [];
+            foreach ($rUrls as $rUrl) {
+                if (filter_var($rUrl, FILTER_VALIDATE_URL, FILTER_FLAG_PATH_REQUIRED)) {
+                    $model = new CatchImageModel();
+                    $model->imageUrl = $rUrl;
+                    $results[] = $model->save($this->aliyunConfig);
+                } else {
+                    $results[] = ['state' => '链接不合法'];
+                }
+            }
+            return $results;
+        }
 
-        return ['err' => '参数错误'];
+        return ['state' => '参数错误'];
     }
 
     private function getConfig(): array

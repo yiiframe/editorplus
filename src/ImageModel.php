@@ -30,7 +30,6 @@ class ImageModel extends Model
                     'jpeg',
                     'gif',
                     'bmp',
-                    'webp',
                 ],
             ],
         ];
@@ -55,26 +54,26 @@ class ImageModel extends Model
             $runtimefile = Yii::getAlias('@runtime/tmpfiles_' . $filename);
 
             if (!$this->imageFile->saveAs($runtimefile)) {
-                return ['err' => '图片暂存失败'];
+                return ['state' => '图片暂存失败'];
             }
 
             try {
                 $client = new OssClient($aliyunConfig['keyId'], $aliyunConfig['keySecret'], $aliyunConfig['endpoint']);
             } catch (OssException $e) {
                 unlink($runtimefile);
-                return ['err' => $e->getMessage()];
+                return ['state' => $e->getMessage()];
             }
 
             try {
                 $client->uploadFile($aliyunConfig['bucket'], $aliyunConfig['filedir'] . $filename, $runtimefile);
             } catch (OssException $e) {
                 unlink($runtimefile);
-                return ['err' => $e->getMessage()];
+                return ['state' => $e->getMessage()];
             }
 
             if (!$client->doesObjectExist($aliyunConfig['bucket'], $aliyunConfig['filedir'] . $filename)) {
                 unlink($runtimefile);
-                return ['err' => '图片转存失败'];
+                return ['state' => '图片转存失败'];
             }
 
             unlink($runtimefile);
@@ -92,6 +91,6 @@ class ImageModel extends Model
             ];
         }
 
-        return ['err' => $this->errors];
+        return ['state' => array_values($this->firstErrors)[0]];
     }
 }
