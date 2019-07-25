@@ -77,7 +77,7 @@ class BuiltinAction extends Action
                     $results[] = ['state' => '链接不合法'];
                 }
             }
-            return $results;
+            return ['state' => 'SUCCESS', 'list' => $results];
         }
 
         return ['state' => '参数错误'];
