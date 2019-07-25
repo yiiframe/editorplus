@@ -72,9 +72,10 @@ class BuiltinAction extends Action
                 if (filter_var($rUrl, FILTER_VALIDATE_URL, FILTER_FLAG_PATH_REQUIRED)) {
                     $model = new CatchImageModel();
                     $model->imageUrl = $rUrl;
-                    $results[] = $model->save($this->aliyunConfig);
-                } else {
-                    $results[] = ['state' => '链接不合法'];
+                    $result = $model->save($this->aliyunConfig);
+                    if (!empty($result) && !isset($result['err'])) {
+                        $results[] = array_merge($result, ['source' => htmlspecialchars($rUrl)]);
+                    }
                 }
             }
             return ['state' => 'SUCCESS', 'list' => $results];
